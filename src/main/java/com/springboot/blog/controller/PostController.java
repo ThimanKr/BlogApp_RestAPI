@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/** The PostController is the rest api interface for POST resources  */
 @RestController
 public class PostController {
 
@@ -18,6 +19,11 @@ public class PostController {
     private PostService postService;
 
 
+    /**
+     * createPost method is to create new post
+     * @param post request data for create new post
+     * @return post
+     */
     @PostMapping(WsPath.CREATE_POST)
     public ResponseEntity<PostDto> createPost(@RequestBody PostDto post){
 
@@ -25,12 +31,23 @@ public class PostController {
 
     }
 
+    /**
+     * getPostById method is to get post data by post id
+     * @param id post Id
+     * @return post
+     */
     @GetMapping(WsPath.GET_POST)
     public ResponseEntity<PostDto> getPostById(@PathVariable Long id){
 
         return new ResponseEntity<>(postService.getPostById(id), HttpStatus.OK);
     }
 
+    /**
+     * updatePost is the method to update post data by post id
+     * @param postDto updated post request data
+     * @param id post Id
+     * @return updated post
+     */
     @PutMapping(WsPath.UPDATE_POST)
     public ResponseEntity<PostDto> updatePost(@RequestBody PostDto postDto, @PathVariable(name = "id") Long id){
 
@@ -39,6 +56,11 @@ public class PostController {
         return new ResponseEntity<>(postResponse, HttpStatus.OK);
     }
 
+    /**
+     * deletePost is the method to delete a post by post id
+     * @param id post Id
+     * @return ResponseEntity
+     */
     @DeleteMapping(WsPath.DELETE_POST)
     public ResponseEntity<String> deletePost(@PathVariable(name = "id") long id){
 
@@ -47,6 +69,10 @@ public class PostController {
         return new ResponseEntity<>("Post entity deleted successfully.", HttpStatus.OK);
     }
 
+    /**
+     * getAllPosts is the method to get all the posts
+     * @return List of PostDto
+     */
     @GetMapping(WsPath.POSTS)
     public List<PostDto> getAllPosts(){
 
