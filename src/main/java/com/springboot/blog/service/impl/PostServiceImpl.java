@@ -5,7 +5,9 @@ import com.springboot.blog.dao.entity.PostEntity;
 import com.springboot.blog.dao.repository.PostRepository;
 import com.springboot.blog.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class PostServiceImpl implements PostService {
 
     @Autowired
@@ -16,7 +18,7 @@ public class PostServiceImpl implements PostService {
 
         // convert dto to entity
         PostEntity postEntity = new PostEntity();
-        postEntity.setTitle(postEntity.getTitle());
+        postEntity.setTitle(postDto.getTitle());
         postEntity.setDescription(postDto.getDescription());
         postEntity.setContent(postDto.getContent());
 
