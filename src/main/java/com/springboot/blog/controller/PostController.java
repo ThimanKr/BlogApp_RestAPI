@@ -1,7 +1,9 @@
 package com.springboot.blog.controller;
 
 import com.springboot.blog.common.WsPath;
+import com.springboot.blog.common.constants.PostConstants;
 import com.springboot.blog.common.dto.PostDto;
+import com.springboot.blog.controller.payload.PostResponse;
 import com.springboot.blog.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -46,7 +48,7 @@ public class PostController {
      * updatePost is the method to update post data by post id
      * @param postDto updated post request data
      * @param id post Id
-     * @return updated post
+     * @return updated post entity
      */
     @PutMapping(WsPath.UPDATE_POST)
     public ResponseEntity<PostDto> updatePost(@RequestBody PostDto postDto, @PathVariable(name = "id") Long id){
@@ -70,12 +72,18 @@ public class PostController {
     }
 
     /**
-     * getAllPosts is the method to get all the posts
-     * @return List of PostDto
+     * getAllPosts is the method to get all the posts with pagination and sorting support
+     * @param pageNo current page number. must not be negative (Optional)
+     * @param pageSize posts per page. must not be negative (Optional)
+     * @param sortBy sorting parameter (Optional)
+     * @return PostResponse
      */
     @GetMapping(WsPath.POSTS)
-    public List<PostDto> getAllPosts(){
+    public PostResponse getAllPosts(
+            @RequestParam(value = "pageNo", defaultValue = PostConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = PostConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+            @RequestParam(value = "sortBy", defaultValue = PostConstants.DEFAULT_SORT_BY, required = false) String sortBy){
 
-        return postService.getAllPosts();
+        return postService.getAllPosts(pageNo, pageSize, sortBy);
     }
 }

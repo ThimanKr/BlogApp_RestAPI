@@ -1,8 +1,7 @@
 package com.springboot.blog.service;
 
 import com.springboot.blog.common.dto.PostDto;
-
-import java.util.List;
+import com.springboot.blog.controller.payload.PostResponse;
 
 /** PostService is the interface includes services related to Posts */
 public interface PostService {
@@ -15,10 +14,13 @@ public interface PostService {
     PostDto createPost(PostDto postDto);
 
     /**
-     * service method to get all the posts
-     * @return List of posts
+     * service method to get all posts. Supported with pagination and sorting
+     * @param pageNo current page number. must not be negative (Optional)
+     * @param pageSize posts per page. must not be negative (Optional)
+     * @param sortBy sorting parameter (Optional)
+     * @return PostResponse
      */
-    List<PostDto> getAllPosts();
+    PostResponse getAllPosts(int pageNo, int pageSize, String sortBy);
 
     /**
      * service method to get post data by id

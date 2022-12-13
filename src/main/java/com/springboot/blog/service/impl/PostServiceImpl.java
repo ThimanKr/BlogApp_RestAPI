@@ -1,11 +1,16 @@
 package com.springboot.blog.service.impl;
 
 import com.springboot.blog.common.dto.PostDto;
+import com.springboot.blog.controller.payload.PostResponse;
 import com.springboot.blog.dao.entity.PostEntity;
 import com.springboot.blog.dao.repository.PostRepository;
 import com.springboot.blog.exception.ResourceNotFoundException;
 import com.springboot.blog.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,9 +44,20 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDto> getAllPosts() {
-        List<PostEntity> posts = postRepository.findAll();
-        List<PostDto> postDtos = posts.stream().map(postEntity ->
+    public PostResponse getAllPosts(int pageNo, int pageSize, String sortBy) {
+
+        // Create Pageable instance for pagination
+        // Default sorting is Ascending
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+
+        // pass pageable data to in-built findAll method
+        Page<PostEntity> posts = postRepository.findAll(pageable);
+
+        // get content from page object
+        List<PostEntity> postEntityList = posts.getContent();
+
+        // convert post entity list to postDto
+        List<PostDto> postDtos = postEntityList.stream().map(postEntity ->
             PostDto.builder()
                     .id(postEntity.getId())
                     .title(postEntity.getTitle())
@@ -49,7 +65,15 @@ public class PostServiceImpl implements PostService {
                     .content(postEntity.getContent())
                     .build()
         ).toList();
-        return postDtos;
+
+        return PostResponse.builder()
+                .posts(postDtos)
+                .pageNo(posts.getNumber())
+                .pageSize(posts.getSize())
+                .totalElements(posts.getTotalElements())
+                .totalPage(posts.getTotalPages())
+                .build();
+
     }
 
     @Override
