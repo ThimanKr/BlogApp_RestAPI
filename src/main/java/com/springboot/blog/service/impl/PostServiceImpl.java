@@ -1,17 +1,23 @@
 package com.springboot.blog.service.impl;
 
+import com.springboot.blog.common.constants.PostConstants;
+import com.springboot.blog.common.dto.GeneratePostContentDto;
 import com.springboot.blog.common.dto.PostDto;
 import com.springboot.blog.controller.payload.PostResponse;
+import com.springboot.blog.controller.payload.TextCortexRequest;
+import com.springboot.blog.controller.payload.TextCortexResponse;
 import com.springboot.blog.dao.entity.PostEntity;
 import com.springboot.blog.dao.repository.PostRepository;
 import com.springboot.blog.exception.ResourceNotFoundException;
 import com.springboot.blog.service.PostService;
+import com.springboot.blog.service.helper.PostServiceHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +27,9 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     private PostRepository postRepository;
+
+    @Autowired
+    private PostServiceHelper serviceHelper;
 
     @Override
     public PostDto createPost(PostDto postDto) {
@@ -121,5 +130,17 @@ public class PostServiceImpl implements PostService {
     public void deletePostById(Long id) {
         PostEntity post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post", "id", id));
         postRepository.delete(post);
+    }
+
+    @Override
+    public TextCortexResponse generatePostContent(GeneratePostContentDto dto) {
+        // Create a RestTemplate for new request to 3rd party API
+        RestTemplate template = new RestTemplate();
+        // Create request
+        TextCortexRequest request = serviceHelper.createTextCortexRequest(dto);
+
+        // Get the response from
+        TextCortexResponse apiResponse = template.postForObject(PostConstants.TEXT_CORTEX_URL, request, TextCortexResponse.class);
+        return apiResponse;
     }
 }

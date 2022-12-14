@@ -7,6 +7,7 @@ import lombok.Setter;
 
 @Data
 @Builder
+/** The PostDto class is used as the dto for Post Entity */
 public class PostDto {
 
     private Long id;
