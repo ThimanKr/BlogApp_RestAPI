@@ -129,7 +129,7 @@ class PostRepositoryTest {
 
         Optional<PostEntity> deletedPost = postRepository.findById(savedPost.getId());
 
-        // then return same list
+        // then return deleted post
         Assertions.assertThat(deletedPost).isEmpty();
 
     }
