@@ -2,15 +2,18 @@ package com.springboot.blog.controller;
 
 import com.springboot.blog.common.WsPath;
 import com.springboot.blog.common.constants.PostConstants;
+import com.springboot.blog.common.dto.GeneratePostContentDto;
 import com.springboot.blog.common.dto.PostDto;
+import com.springboot.blog.controller.helper.PostControllerHelper;
+import com.springboot.blog.controller.payload.GeneratePostContentRequest;
+import com.springboot.blog.controller.payload.GeneratePostContentResponse;
 import com.springboot.blog.controller.payload.PostResponse;
+import com.springboot.blog.controller.payload.TextCortexResponse;
 import com.springboot.blog.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /** The PostController is the rest api interface for POST resources  */
 @RestController
@@ -19,6 +22,9 @@ public class PostController {
 
     @Autowired
     private PostService postService;
+
+    @Autowired
+    private PostControllerHelper controllerHelper;
 
 
     /**
@@ -85,5 +91,19 @@ public class PostController {
             @RequestParam(value = "sortBy", defaultValue = PostConstants.DEFAULT_SORT_BY, required = false) String sortBy){
 
         return postService.getAllPosts(pageNo, pageSize, sortBy);
+    }
+
+    /**
+     * generatePostText is the method to generate text for given title and keywords using 3rd party API called TextCortex
+     * @param request object of postTitle and postKeywords
+     * @return GeneratePostContentResponse with generated text and success status
+     */
+    @PostMapping(WsPath.GENERATE_POST)
+    public GeneratePostContentResponse generatePostText(@RequestBody GeneratePostContentRequest request){
+
+        GeneratePostContentDto dto = controllerHelper.convertRequestToGenerateContentDto(request);
+        TextCortexResponse apiResponse = postService.generatePostContent(dto);
+        return controllerHelper.convertTextCortexResponseToPostContentResponse(apiResponse);
+
     }
 }
