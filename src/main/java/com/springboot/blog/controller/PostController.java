@@ -10,6 +10,8 @@ import com.springboot.blog.controller.payload.GeneratePostContentResponse;
 import com.springboot.blog.controller.payload.PostResponse;
 import com.springboot.blog.controller.payload.TextCortexResponse;
 import com.springboot.blog.service.PostService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /** The PostController is the rest api interface for POST resources  */
+@Tag(name = "REST APIs for POST Resources")
 @RestController
 public class PostController {
 
@@ -33,6 +36,7 @@ public class PostController {
      * @param post request data for create new post
      * @return post
      */
+    @Operation(summary = "REST End Point to Create New Post")
     @PostMapping(WsPath.CREATE_POST)
     public ResponseEntity<PostDto> createPost(@Valid @RequestBody PostDto post){
 
@@ -45,6 +49,7 @@ public class PostController {
      * @param id post Id
      * @return post
      */
+    @Operation(summary = "REST End Point to Get a Post by Post Id")
     @GetMapping(WsPath.GET_POST)
     public ResponseEntity<PostDto> getPostById(@PathVariable Long id){
 
@@ -57,6 +62,7 @@ public class PostController {
      * @param id post Id
      * @return updated post entity
      */
+    @Operation(summary = "REST End Point to Update a Post by Post Id")
     @PutMapping(WsPath.UPDATE_POST)
     public ResponseEntity<PostDto> updatePost(@Valid @RequestBody PostDto postDto, @PathVariable(name = "id") Long id){
 
@@ -70,6 +76,7 @@ public class PostController {
      * @param id post Id
      * @return ResponseEntity
      */
+    @Operation(summary = "REST End Point to Delete a Post by Post Id")
     @DeleteMapping(WsPath.DELETE_POST)
     public ResponseEntity<String> deletePost(@PathVariable(name = "id") long id){
 
@@ -85,6 +92,7 @@ public class PostController {
      * @param sortBy sorting parameter (Optional)
      * @return PostResponse
      */
+    @Operation(summary = "REST End Point to Get All Posts with pagination and sorting")
     @GetMapping(WsPath.POSTS)
     public PostResponse getAllPosts(
             @RequestParam(value = "pageNo", defaultValue = PostConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
@@ -99,6 +107,7 @@ public class PostController {
      * @param request object of postTitle and postKeywords
      * @return GeneratePostContentResponse with generated text and success status
      */
+    @Operation(summary = "REST End Point to Generate a Post Content")
     @PostMapping(WsPath.GENERATE_POST)
     public GeneratePostContentResponse generatePostText(@Valid @RequestBody GeneratePostContentRequest request){
 
