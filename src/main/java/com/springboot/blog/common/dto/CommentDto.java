@@ -6,11 +6,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Data
-@Builder
-public class PostDto {
+public class CommentDto {
 
     private Long id;
-    private String title;
-    private String description;
-    private String content;
+    private String name;
+    private String email;
+    private String body;
 }
