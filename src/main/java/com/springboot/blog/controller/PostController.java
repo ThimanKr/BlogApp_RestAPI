@@ -3,12 +3,10 @@ package com.springboot.blog.controller;
 import com.springboot.blog.common.WsPath;
 import com.springboot.blog.common.constants.PostConstants;
 import com.springboot.blog.common.dto.GeneratePostContentDto;
+import com.springboot.blog.common.dto.GeneratePostTitleDto;
 import com.springboot.blog.common.dto.PostDto;
 import com.springboot.blog.controller.helper.PostControllerHelper;
-import com.springboot.blog.controller.payload.GeneratePostContentRequest;
-import com.springboot.blog.controller.payload.GeneratePostContentResponse;
-import com.springboot.blog.controller.payload.PostResponse;
-import com.springboot.blog.controller.payload.TextCortexResponse;
+import com.springboot.blog.controller.payload.*;
 import com.springboot.blog.service.PostService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -103,11 +101,26 @@ public class PostController {
     }
 
     /**
-     * generatePostText is the method to generate text for given title and keywords using 3rd party API called TextCortex
+     * generatePostTitle is the method to generate title for given post intro and keywords using 3rd party API. (https://documenter.getpostman.com/view/936254/2s83tCLYi9#106c9e5d-0b6c-4017-8e9f-605ef8d04385)
+     * @param request GeneratePostTitleRequest
+     * @return GeneratePostContentResponse
+     */
+    @Operation(summary = "GENERATE POST TITLE- REST End Point to Generate a Post Title based on given blog intro and keywords")
+    @PostMapping(WsPath.GENERATE_POST_TITLE)
+    public GeneratePostContentResponse generatePostTitle(@Valid @RequestBody GeneratePostTitleRequest request){
+
+        GeneratePostTitleDto dto = controllerHelper.convertRequestToGenerateTitleDto(request);
+        TextCortexResponse apiResponse = postService.generatePostTitle(dto);
+        return controllerHelper.convertTextCortexResponseToPostContentResponse(apiResponse);
+
+    }
+
+    /**
+     * generatePostText is the method to generate text for given title and keywords using 3rd party API. (https://documenter.getpostman.com/view/936254/2s83tCLYi9#24be6895-850f-433b-80fd-312ac1acffad)
      * @param request object of postTitle and postKeywords
      * @return GeneratePostContentResponse with generated text and success status
      */
-    @Operation(summary = "GENERATE POST - REST End Point to Generate a Post Content")
+    @Operation(summary = "GENERATE POST - REST End Point to Generate a Post content based on given keywords and a blog title")
     @PostMapping(WsPath.GENERATE_POST)
     public GeneratePostContentResponse generatePostText(@Valid @RequestBody GeneratePostContentRequest request){
 

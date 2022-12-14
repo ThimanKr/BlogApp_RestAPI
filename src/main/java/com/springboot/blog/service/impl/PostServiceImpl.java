@@ -2,9 +2,11 @@ package com.springboot.blog.service.impl;
 
 import com.springboot.blog.common.constants.PostConstants;
 import com.springboot.blog.common.dto.GeneratePostContentDto;
+import com.springboot.blog.common.dto.GeneratePostTitleDto;
 import com.springboot.blog.common.dto.PostDto;
 import com.springboot.blog.controller.payload.PostResponse;
-import com.springboot.blog.controller.payload.TextCortexRequest;
+import com.springboot.blog.controller.payload.TextCortexCreateBlogRequest;
+import com.springboot.blog.controller.payload.TextCortexCreateBlogTitleRequest;
 import com.springboot.blog.controller.payload.TextCortexResponse;
 import com.springboot.blog.dao.entity.PostEntity;
 import com.springboot.blog.dao.repository.PostRepository;
@@ -137,7 +139,19 @@ public class PostServiceImpl implements PostService {
         // Create a RestTemplate for new request to 3rd party API
         RestTemplate template = new RestTemplate();
         // Create request
-        TextCortexRequest request = serviceHelper.createTextCortexRequest(dto);
+        TextCortexCreateBlogRequest request = serviceHelper.createTextCortexGeneratePostRequest(dto);
+
+        // Get the response from
+        TextCortexResponse apiResponse = template.postForObject(PostConstants.TEXT_CORTEX_URL, request, TextCortexResponse.class);
+        return apiResponse;
+    }
+
+    @Override
+    public TextCortexResponse generatePostTitle(GeneratePostTitleDto dto) {
+        // Create a RestTemplate for new request to 3rd party API
+        RestTemplate template = new RestTemplate();
+        // Create request
+        TextCortexCreateBlogTitleRequest request = serviceHelper.createTextCortexGenerateTitleRequest(dto);
 
         // Get the response from
         TextCortexResponse apiResponse = template.postForObject(PostConstants.TEXT_CORTEX_URL, request, TextCortexResponse.class);

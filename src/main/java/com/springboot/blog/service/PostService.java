@@ -1,6 +1,7 @@
 package com.springboot.blog.service;
 
 import com.springboot.blog.common.dto.GeneratePostContentDto;
+import com.springboot.blog.common.dto.GeneratePostTitleDto;
 import com.springboot.blog.common.dto.PostDto;
 import com.springboot.blog.controller.payload.PostResponse;
 import com.springboot.blog.controller.payload.TextCortexResponse;
@@ -51,5 +52,12 @@ public interface PostService {
      * @return TextCortexResponse
      */
     TextCortexResponse generatePostContent(GeneratePostContentDto dto);
+
+    /**
+     * service method to generate title for post
+     * @param dto post title data request
+     * @return TextCortexResponse
+     */
+    TextCortexResponse generatePostTitle(GeneratePostTitleDto dto);
 
 }

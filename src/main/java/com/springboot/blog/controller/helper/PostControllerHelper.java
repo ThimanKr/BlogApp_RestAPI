@@ -1,8 +1,10 @@
 package com.springboot.blog.controller.helper;
 
 import com.springboot.blog.common.dto.GeneratePostContentDto;
+import com.springboot.blog.common.dto.GeneratePostTitleDto;
 import com.springboot.blog.controller.payload.GeneratePostContentRequest;
 import com.springboot.blog.controller.payload.GeneratePostContentResponse;
+import com.springboot.blog.controller.payload.GeneratePostTitleRequest;
 import com.springboot.blog.controller.payload.TextCortexResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,5 +34,14 @@ public class PostControllerHelper {
                 .content(response.getGenerated_text().get(0).getText())
                 .status(response.getStatus())
                 .build();
+    }
+
+    /** This method used for convert GeneratePostTitleRequest to GeneratePostTitleDto */
+    public GeneratePostTitleDto convertRequestToGenerateTitleDto(GeneratePostTitleRequest request){
+
+        GeneratePostTitleDto dto = GeneratePostTitleDto.builder().build();
+        // use modelMapper to convert.
+        modelMapper.map(request, dto);
+        return dto;
     }
 }
