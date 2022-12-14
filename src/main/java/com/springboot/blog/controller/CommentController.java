@@ -27,7 +27,7 @@ public class CommentController {
      * @param commentDto Comment request data
      * @return CommentDto
      */
-    @Operation(summary = "REST End Point to Create New Comment")
+    @Operation(summary = " CREATE COMMENT - REST End Point to Create New Comment")
     @PostMapping(WsPath.CREATE_COMMENT)
     public ResponseEntity<CommentDto> createComment(@PathVariable(value = "postId") long postId,
                                                     @RequestBody CommentDto commentDto){
@@ -39,7 +39,7 @@ public class CommentController {
      * @param postId Id of the post
      * @return List of commentDto
      */
-    @Operation(summary = "REST End Point to Get Comments by Post Id")
+    @Operation(summary = "GET POST COMMENTS - REST End Point to Get Comments by Post Id")
     @GetMapping(WsPath.COMMENTS)
     public List<CommentDto> getCommentsByPostId(@PathVariable(value = "postId") Long postId){
         return commentService.getCommentsByPostId(postId);
@@ -51,7 +51,7 @@ public class CommentController {
      * @param commentId Id of the comment
      * @return CommentDto
      */
-    @Operation(summary = "REST End Point to Get a Comment Data by Comment Id")
+    @Operation(summary = "GET COMMENT - REST End Point to Get a Comment Data by Comment Id")
     @GetMapping(WsPath.GET_COMMENT)
     public ResponseEntity<CommentDto> getCommentById(@PathVariable(value = "postId") Long postId,
                                                      @PathVariable(value = "id") Long commentId){
@@ -67,7 +67,7 @@ public class CommentController {
      * @return CommentDto
      */
     @PutMapping(WsPath.UPDATE_COMMENT)
-    @Operation(summary = "REST End Point to Update a Comment of Post")
+    @Operation(summary = "UPDATE COMMENT - REST End Point to Update a Comment of Post")
     public ResponseEntity<CommentDto> updateComment(@PathVariable(value = "postId") Long postId,
                                                     @PathVariable(value = "id") Long commentId,
                                                     @RequestBody CommentDto commentDto){
@@ -82,7 +82,7 @@ public class CommentController {
      * @return
      */
     @DeleteMapping(WsPath.DELETE_COMMENT)
-    @Operation(summary = "REST End Point to Delete a Comment of a Post")
+    @Operation(summary = "DELETE COMMENT - REST End Point to Delete a Comment of a Post")
     public ResponseEntity<String> deleteComment(@PathVariable(value = "postId") Long postId,
                                                 @PathVariable(value = "id") Long commentId){
         commentService.deleteComment(postId, commentId);
