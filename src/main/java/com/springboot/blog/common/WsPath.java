@@ -21,6 +21,9 @@ public interface WsPath {
     /**Ws path to Delete post **/
     String DELETE_POST = POSTS + "/{id}";
 
+    /**Ws path to generate post using 3rd party API **/
+    String GENERATE_POST = POSTS + "/generate";
+
     /** ############################## COMMENT DATA RESOURCES ##########################*/
 
 

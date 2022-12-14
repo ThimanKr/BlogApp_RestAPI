@@ -1,7 +1,9 @@
 package com.springboot.blog.service;
 
+import com.springboot.blog.common.dto.GeneratePostContentDto;
 import com.springboot.blog.common.dto.PostDto;
 import com.springboot.blog.controller.payload.PostResponse;
+import com.springboot.blog.controller.payload.TextCortexResponse;
 
 /** PostService is the interface includes services related to Posts */
 public interface PostService {
@@ -42,5 +44,12 @@ public interface PostService {
      * @param id post Id
      */
     void deletePostById(Long id);
+
+    /**
+     * service method to generate content for post
+     * @param dto post content data request
+     * @return TextCortexResponse
+     */
+    TextCortexResponse generatePostContent(GeneratePostContentDto dto);
 
 }
