@@ -98,7 +98,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public void deleteComment(Long postId, Long commentId) {
-// retrieve post entity by id
+        // retrieve post entity by id
         PostEntity post = postRepository.findById(postId).orElseThrow(
                 () -> new ResourceNotFoundException("Post", "id", postId));
 

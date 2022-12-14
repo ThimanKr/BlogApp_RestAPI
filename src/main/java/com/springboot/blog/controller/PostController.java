@@ -11,6 +11,7 @@ import com.springboot.blog.service.PostService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 /** The PostController is the rest api interface for POST resources  */
 @Tag(name = "REST APIs for POST Resources")
 @RestController
+@Slf4j
 public class PostController {
 
 
@@ -38,6 +40,7 @@ public class PostController {
     @PostMapping(WsPath.CREATE_POST)
     public ResponseEntity<PostDto> createPost(@Valid @RequestBody PostDto post){
 
+        log.info( "create post data request : {} ", post );
         return new ResponseEntity<>(postService.createPost(post), HttpStatus.CREATED);
 
     }
@@ -51,6 +54,7 @@ public class PostController {
     @GetMapping(WsPath.GET_POST)
     public ResponseEntity<PostDto> getPostById(@PathVariable Long id){
 
+        log.info( "getPostById request : {} ", id );
         return new ResponseEntity<>(postService.getPostById(id), HttpStatus.OK);
     }
 
@@ -64,6 +68,7 @@ public class PostController {
     @PutMapping(WsPath.UPDATE_POST)
     public ResponseEntity<PostDto> updatePost(@Valid @RequestBody PostDto postDto, @PathVariable(name = "id") Long id){
 
+        log.info( "updatePost request : {} {} ", postDto, id );
         PostDto postResponse = postService.updatePost(postDto, id);
 
         return new ResponseEntity<>(postResponse, HttpStatus.OK);
@@ -78,6 +83,7 @@ public class PostController {
     @DeleteMapping(WsPath.DELETE_POST)
     public ResponseEntity<String> deletePost(@PathVariable(name = "id") long id){
 
+        log.info( "deletePost request : {} ", id );
         postService.deletePostById(id);
 
         return new ResponseEntity<>("Post entity deleted successfully.", HttpStatus.OK);

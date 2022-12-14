@@ -6,6 +6,7 @@ import com.springboot.blog.service.CommentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @Tag(name = "REST APIs for COMMENT Resources")
+@Slf4j
 public class CommentController {
 
     private CommentService commentService;
@@ -31,6 +33,8 @@ public class CommentController {
     @PostMapping(WsPath.CREATE_COMMENT)
     public ResponseEntity<CommentDto> createComment(@PathVariable(value = "postId") long postId,
                                                     @RequestBody CommentDto commentDto){
+
+        log.info( "createComment request received: {} {} ", postId, commentDto );
         return new ResponseEntity<>(commentService.createComment(postId, commentDto), HttpStatus.CREATED);
     }
 
@@ -42,6 +46,8 @@ public class CommentController {
     @Operation(summary = "GET POST COMMENTS - REST End Point to Get Comments by Post Id")
     @GetMapping(WsPath.COMMENTS)
     public List<CommentDto> getCommentsByPostId(@PathVariable(value = "postId") Long postId){
+
+        log.info( "getCommentsByPostId request received: {} ", postId );
         return commentService.getCommentsByPostId(postId);
     }
 
@@ -55,6 +61,8 @@ public class CommentController {
     @GetMapping(WsPath.GET_COMMENT)
     public ResponseEntity<CommentDto> getCommentById(@PathVariable(value = "postId") Long postId,
                                                      @PathVariable(value = "id") Long commentId){
+
+        log.info( "getCommentById request received: {} {} ", postId, commentId );
         CommentDto commentDto = commentService.getCommentById(postId, commentId);
         return new ResponseEntity<>(commentDto, HttpStatus.OK);
     }
@@ -71,6 +79,8 @@ public class CommentController {
     public ResponseEntity<CommentDto> updateComment(@PathVariable(value = "postId") Long postId,
                                                     @PathVariable(value = "id") Long commentId,
                                                     @RequestBody CommentDto commentDto){
+
+        log.info( "updateComment request received: {} {} {} ", postId, commentId, commentDto );
         CommentDto updatedComment = commentService.updateComment(postId, commentId, commentDto);
         return new ResponseEntity<>(updatedComment, HttpStatus.OK);
     }
@@ -85,6 +95,8 @@ public class CommentController {
     @Operation(summary = "DELETE COMMENT - REST End Point to Delete a Comment of a Post")
     public ResponseEntity<String> deleteComment(@PathVariable(value = "postId") Long postId,
                                                 @PathVariable(value = "id") Long commentId){
+
+        log.info( "deleteComment request received : {} {} ", postId, commentId );
         commentService.deleteComment(postId, commentId);
         return new ResponseEntity<>("Comment deleted successfully", HttpStatus.OK);
     }
