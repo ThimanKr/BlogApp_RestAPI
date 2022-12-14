@@ -25,7 +25,7 @@ public interface WsPath {
 
 
     /**Ws path to get all comments of a post **/
-    String COMMENTS = POSTS + "{postId}/comments";
+    String COMMENTS = POSTS + "/{postId}/comments";
 
     /**Ws path to get comment of a post by comment Id **/
     String GET_COMMENT = COMMENTS + "/{id}";
