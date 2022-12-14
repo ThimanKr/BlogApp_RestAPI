@@ -10,6 +10,7 @@ import com.springboot.blog.controller.payload.GeneratePostContentResponse;
 import com.springboot.blog.controller.payload.PostResponse;
 import com.springboot.blog.controller.payload.TextCortexResponse;
 import com.springboot.blog.service.PostService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,7 @@ public class PostController {
      * @return post
      */
     @PostMapping(WsPath.CREATE_POST)
-    public ResponseEntity<PostDto> createPost(@RequestBody PostDto post){
+    public ResponseEntity<PostDto> createPost(@Valid @RequestBody PostDto post){
 
         return new ResponseEntity<>(postService.createPost(post), HttpStatus.CREATED);
 
@@ -57,7 +58,7 @@ public class PostController {
      * @return updated post entity
      */
     @PutMapping(WsPath.UPDATE_POST)
-    public ResponseEntity<PostDto> updatePost(@RequestBody PostDto postDto, @PathVariable(name = "id") Long id){
+    public ResponseEntity<PostDto> updatePost(@Valid @RequestBody PostDto postDto, @PathVariable(name = "id") Long id){
 
         PostDto postResponse = postService.updatePost(postDto, id);
 
@@ -99,7 +100,7 @@ public class PostController {
      * @return GeneratePostContentResponse with generated text and success status
      */
     @PostMapping(WsPath.GENERATE_POST)
-    public GeneratePostContentResponse generatePostText(@RequestBody GeneratePostContentRequest request){
+    public GeneratePostContentResponse generatePostText(@Valid @RequestBody GeneratePostContentRequest request){
 
         GeneratePostContentDto dto = controllerHelper.convertRequestToGenerateContentDto(request);
         TextCortexResponse apiResponse = postService.generatePostContent(dto);
