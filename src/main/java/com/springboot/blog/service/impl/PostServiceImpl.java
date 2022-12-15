@@ -38,20 +38,11 @@ public class PostServiceImpl implements PostService {
     public PostDto createPost(PostDto postDto) {
 
         // convert dto to entity
-        PostEntity postEntity = new PostEntity();
-        postEntity.setTitle(postDto.getTitle());
-        postEntity.setDescription(postDto.getDescription());
-        postEntity.setContent(postDto.getContent());
-
+        PostEntity postEntity = serviceHelper.convertPostDtoToPostEntity(postDto);
         PostEntity savedPost = postRepository.save(postEntity);
 
         // Convert saved post to dto for response
-        return PostDto.builder()
-                .id(savedPost.getId())
-                .title(savedPost.getTitle())
-                .description(savedPost.getDescription())
-                .content(savedPost.getContent())
-                .build();
+        return serviceHelper.convertPostEntityToPostDto(savedPost);
 
     }
 
