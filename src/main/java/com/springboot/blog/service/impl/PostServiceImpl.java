@@ -23,6 +23,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -75,7 +76,7 @@ public class PostServiceImpl implements PostService {
                     .description(postEntity.getDescription())
                     .content(postEntity.getContent())
                     .build()
-        ).toList();
+        ).collect(Collectors.toList());
 
         return PostResponse.builder()
                 .posts(postDtos)
