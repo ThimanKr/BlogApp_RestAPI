@@ -3,7 +3,7 @@ This is a sample Java / Maven / Spring Boot (version 3.0.0) application with RES
 
 ## How To Run
 * Clone the repository using `git clone https://github.com/ThimanKr/BlogApp_RestAPI.git`
-* Make sure you are using Java 11 and Maven 3.x
+* Make sure you are using Java 17, Spring Boot 3.0.0 and Maven 3.81
 * Checkout to dev branch using `git checkout dev`
 * Make sure you pull all the updates in dev branch using `git pull origin dev`
 * You can build the project and run it using IDE or command line
